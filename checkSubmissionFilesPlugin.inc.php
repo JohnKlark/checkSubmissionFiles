@@ -12,7 +12,7 @@ class checkSubmissionFilesPlugin extends GenericPlugin {
 				$form = $params[0];
 				$files = DAORegistry::getDAO('SubmissionFileDAO')->getBySubmissionId($form->submissionId);
 				foreach ($files as $file) {
-					if ($file->getGenreId() === 1) {
+					if ($file->getGenreId() != 1) {
 						$form->addError('missingFileComponent', 'You are missing a required file component');
 					}
 				}
