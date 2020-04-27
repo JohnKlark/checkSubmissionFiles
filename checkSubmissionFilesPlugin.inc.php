@@ -11,12 +11,30 @@ class checkSubmissionFilesPlugin extends GenericPlugin {
 			HookRegistry::register('submissionsubmitstep2form::validate', function($hookName, $params) {
 				$form = $params[0];
 				$files = DAORegistry::getDAO('SubmissionFileDAO')->getBySubmissionId($form->submissionId);
+				$reqFiles = ['1','2','3'];
+				
 				foreach ($files as $file) {
-					if ($file->getGenreId() != 1) {
-						$form->addError('missingFileComponent', 'You are missing a required file component');
-					}
+					$genreIDs[] += $file->getGenreId();
 				}
-					return false;
+				
+				$say = count($genreIDs);
+				if($say > 1)
+				{
+					$genreIDs;
+				}
+				else
+				{
+					$form->addError('missingFileComponent', 'You are missing a required file component.');
+				}
+
+				foreach ($reqFiles as $rFile) {
+					if(in_array($rFile,$genreIDs) === false)
+				{
+					$form->addError('missingFileComponent', 'You are missing a required file component.');
+				}
+
+				}
+
 				});
 			
 		}
