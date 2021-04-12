@@ -10,11 +10,11 @@ class checkSubmissionFilesPlugin extends GenericPlugin {
 			// Do something when the plugin is enabled
 			HookRegistry::register('submissionsubmitstep2form::validate', function($hookName, $params) {
 				$form = $params[0];
-				$files = DAORegistry::getDAO('SubmissionFileDAO')->getBySubmissionId($form->submissionId);
+				$files = Services::get('submissionFile')->getMany(['submissionIds' => [$form->submissionId]]);
 				$reqFiles = ['1','2','3'];
 				
 				foreach ($files as $file) {
-					$genreIDs[] += $file->getGenreId();
+					$genreIDs[] += $file->getData('genreId');
 				}
 				
 				$say = count($genreIDs);
